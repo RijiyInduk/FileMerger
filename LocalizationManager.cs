@@ -13,7 +13,7 @@ namespace FileMerger
 
         private static readonly Dictionary<string, (string en, string ru)> Map = new()
         {
-            ["Title"] = ("File Merger", "File Merger"),
+            ["Title"] = ("TXTFileMerger", "TXTFileMerger"),
             ["AddFiles"] = ("Add files...", "Добавить файлы..."),
             ["DropHint"] = ("Drag & drop files or folders here",
                                 "Перетащите файлы или папки сюда"),
