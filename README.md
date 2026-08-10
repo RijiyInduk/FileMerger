@@ -24,7 +24,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Download
 
-Grab the latest build from the [**Releases**](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases) page:(https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0)
+Download the latest release from: https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0
 
 | File | Description | Requires .NET? |
 |------|-------------|----------------|
