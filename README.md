@@ -3,6 +3,7 @@
 
 [English version](#english) | [Русская версия](#russian)
 
+## English <a name="english"></a>
 A lightweight Windows desktop tool that merges multiple text-based files
 (source code, configs, docs) into a single output file with clear separators -
 perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in one paste.
@@ -74,7 +75,7 @@ dotnet run
 
 [MIT](LICENSE)
 
-
+## Русская версия <a name="russian"></a>
 Лёгкое настольное приложение для Windows, объединяющее несколько текстовых файлов (исходный код, конфиги, документацию) в один выходной файл с чёткими разделителями — идеально подходит для передачи всей кодовой базы в LLM (ChatGPT, Claude, Gemini) одной вставкой.
 
 https://docs/screenshot.png
