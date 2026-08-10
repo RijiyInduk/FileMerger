@@ -7,11 +7,11 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
 		<ApplicationDefaultFont>Segoe UI, 9pt</ApplicationDefaultFont>
-
 		<PublishSingleFile>true</PublishSingleFile>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<SelfContained>false</SelfContained>
 		<ApplicationIcon>MergerIcon256.ico</ApplicationIcon>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 	</PropertyGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="MergerIcon256.ico" />

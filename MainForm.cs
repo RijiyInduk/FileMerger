@@ -1,5 +1,4 @@
-﻿
-namespace FileMerger
+﻿namespace FileMerger
 {
     public sealed class MainForm : Form
     {
@@ -32,39 +31,142 @@ namespace FileMerger
                     Icon = new Icon(s);
             }
             catch { /* иконка не критична */ }
+
             MinimumSize = new Size(760, 560);
             Size = new Size(1024, 760);
             StartPosition = FormStartPosition.CenterScreen;
             AllowDrop = true;
             BackColor = Color.FromArgb(237, 230, 219);
+            Padding = new Padding(15, 12, 15, 0);
 
-            // Кнопки языка
-            _btnEn = MakeButton("EN", 15, 12, 50, 32, (_, _) => SwitchLang(AppLang.En));
-            _btnRu = MakeButton("RU", 72, 12, 50, 32, (_, _) => SwitchLang(AppLang.Ru));
-            _btnEn.Font = _btnRu.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            // ===== Статус (Dock.Bottom) =====
+            _status = new Label
+            {
+                Height = 28,
+                BorderStyle = BorderStyle.FixedSingle,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(8, 0, 0, 0),
+                Font = new Font("Segoe UI", 10),
+                Dock = DockStyle.Bottom
+            };
+            Controls.Add(_status);
 
-            // Заголовок программы 
+            // Прогресс — над статусом (та же нижняя зона)
+            _progress = new ProgressBar
+            {
+                Height = 22,
+                Dock = DockStyle.Bottom,
+                Visible = false
+            };
+            Controls.Add(_progress);
+
+            // ===== Корневая таблица: [0] шапка (auto), [1] тело (fill) =====
+            var root = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                BackColor = Color.Transparent
+            };
+            root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            Controls.Add(root);
+            root.BringToFront();
+
+            // ===== Строка 0: шапка (EN | RU | Title) =====
+            var header = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 3,
+                RowCount = 1,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, 10),
+                BackColor = Color.Transparent
+            };
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+
+            _btnEn = new Button
+            {
+                Text = "EN",
+                Width = 50,
+                Height = 32,
+                Font = new Font("Segoe UI", 10, FontStyle.Regular),
+                Margin = new Padding(0, 0, 6, 0)
+            };
+            _btnEn.Click += (_, _) => SwitchLang(AppLang.En);
+
+            _btnRu = new Button
+            {
+                Text = "RU",
+                Width = 50,
+                Height = 32,
+                Font = new Font("Segoe UI", 10, FontStyle.Regular),
+                Margin = new Padding(0, 0, 20, 0)
+            };
+            _btnRu.Click += (_, _) => SwitchLang(AppLang.Ru);
+
             _lblTitle = new Label
             {
-                AutoSize = true,
-                Font = new Font("Segoe UI Semibold", 26, FontStyle.Bold), 
-                ForeColor = Color.FromArgb(60, 45, 30),                   
+                AutoSize = false,
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI Semibold", 18, FontStyle.Bold), // 22 → 20
+                ForeColor = Color.FromArgb(60, 45, 30),
                 BackColor = Color.Transparent,
-                Top = 12
+                TextAlign = ContentAlignment.MiddleCenter,
+                AutoEllipsis = false,                        // отключаем обрезку
+                Margin = new Padding(0, 0, 15, 0),           // отступ справа
+                UseCompatibleTextRendering = false
             };
-            Controls.Add(_lblTitle);
-            _lblTitle.SendToBack();
 
-            // Кнопка добавить
-            _btnAdd = MakeButton("Add files...", 0, 0, 0, 0, (_, _) => AddViaDialog());
-            _btnAdd.Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold);
+            header.Controls.Add(_btnEn, 0, 0);
+            header.Controls.Add(_btnRu, 1, 0);
+            header.Controls.Add(_lblTitle, 2, 0);
+            root.Controls.Add(header, 0, 0);
 
-            // Поле drag&drop
+            // ===== Строка 1: тело (55% / 45%) =====
+            var body = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                BackColor = Color.Transparent
+            };
+            body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55));
+            body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
+            root.Controls.Add(body, 0, 1);
+
+            // ---- Левая колонка ----
+            var left = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                Margin = new Padding(0, 0, 10, 10),
+                BackColor = Color.Transparent
+            };
+            left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 55));
+            left.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            _btnAdd = new Button
+            {
+                Text = "Add files...",
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold),
+                Margin = new Padding(0, 0, 0, 12)
+            };
+            _btnAdd.Click += (_, _) => AddViaDialog();
+
             _dropPanel = new Panel
             {
+                Dock = DockStyle.Fill,
                 BorderStyle = BorderStyle.FixedSingle,
                 AllowDrop = true,
-                BackColor = Color.White
+                BackColor = Color.White,
+                Margin = new Padding(0)
             };
             var dropHint = new Label
             {
@@ -77,152 +179,78 @@ namespace FileMerger
             _dropPanel.Controls.Add(dropHint);
             _dropPanel.DragEnter += OnDragEnter;
             _dropPanel.DragDrop += OnDragDrop;
-            Controls.Add(_dropPanel);
 
-            // Заголовок списка (выравнивание по правому краю задаётся в RelayoutAll)
-            _lblListHeader = new Label
+            left.Controls.Add(_btnAdd, 0, 0);
+            left.Controls.Add(_dropPanel, 0, 1);
+            body.Controls.Add(left, 0, 0);
+
+            // ---- Правая колонка: List(fill) + Header(auto) + Clear + Merge ----
+            var right = new TableLayoutPanel
             {
-                AutoSize = true,
-                ForeColor = Color.Gray,
-                Font = new Font("Segoe UI", 11)
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4,
+                Margin = new Padding(10, 0, 0, 10),
+                BackColor = Color.Transparent
             };
-            Controls.Add(_lblListHeader);
+            right.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            right.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // List
+            right.RowStyles.Add(new RowStyle(SizeType.AutoSize));     // Header
+            right.RowStyles.Add(new RowStyle(SizeType.Absolute, 46)); // Clear
+            right.RowStyles.Add(new RowStyle(SizeType.Absolute, 46)); // Merge
 
-            // Панель списка (скролл)
             _listPanel = new FlowLayoutPanel
             {
+                Dock = DockStyle.Fill,
                 AutoScroll = true,
                 FlowDirection = FlowDirection.TopDown,
                 WrapContents = false,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.White
+                BackColor = Color.White,
+                Margin = new Padding(0)
             };
-            Controls.Add(_listPanel);
-
-            // Кнопки очистить и объединить (размеры/позиции — в RelayoutAll)
-            _btnClear = MakeButton("Clear all", 0, 0, 0, 0, (_, _) => ClearAll());
-            _btnClear.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-
-            _btnMerge = MakeButton("Merge!", 0, 0, 0, 0, async (_, _) => await MergeAsync());
-            _btnMerge.Font = new Font("Segoe UI Semibold", 13, FontStyle.Bold); 
-            _btnMerge.BackColor = Color.FromArgb(139, 100, 65);
-            _btnMerge.ForeColor = Color.White;
-            _btnMerge.FlatStyle = FlatStyle.Flat;
-            _btnMerge.FlatAppearance.BorderSize = 0;
-
-            // Прогресс
-            _progress = new ProgressBar
-            {
-                Height = 18,
-                Visible = false
-            };
-            Controls.Add(_progress);
-
-            // Статусная строка (Dock.Bottom — единственный, кому Dock оставляем)
-            _status = new Label
-            {
-                Height = 28,
-                BorderStyle = BorderStyle.FixedSingle,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Padding = new Padding(8, 0, 0, 0),
-                Font = new Font("Segoe UI", 10),
-                Dock = DockStyle.Bottom
-            };
-            Controls.Add(_status);
-
             _listPanel.ClientSizeChanged += (_, _) => ResizeRows();
 
+            _lblListHeader = new Label
+            {
+                AutoSize = true,
+                Anchor = AnchorStyles.Right,
+                ForeColor = Color.Gray,
+                Font = new Font("Segoe UI", 11),
+                Margin = new Padding(0, 4, 0, 8)
+            };
+
+            _btnClear = new Button
+            {
+                Text = "Clear all",
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                Margin = new Padding(0, 0, 0, 12)
+            };
+            _btnClear.Click += (_, _) => ClearAll();
+
+            _btnMerge = new Button
+            {
+                Text = "Merge!",
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI Semibold", 13, FontStyle.Bold),
+                BackColor = Color.FromArgb(139, 100, 65),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Margin = new Padding(0)
+            };
+            _btnMerge.FlatAppearance.BorderSize = 0;
+            _btnMerge.Click += async (_, _) => await MergeAsync();
+
+            right.Controls.Add(_listPanel, 0, 0);
+            right.Controls.Add(_lblListHeader, 0, 1);
+            right.Controls.Add(_btnClear, 0, 2);
+            right.Controls.Add(_btnMerge, 0, 3);
+            body.Controls.Add(right, 1, 0);
+
+            // Скрывать прогресс при служебных кликах
             foreach (var btn in new[] { _btnEn, _btnRu, _btnAdd, _btnClear })
                 btn.Click += (_, _) => HideProgress();
-
-            // Единый обработчик раскладки
-            Resize += (_, _) => RelayoutAll();
-            RelayoutAll();
-        }
-
-        private void RelayoutAll()
-        {
-            const int pad = 15;
-            const int gap = 12;
-            int W = ClientSize.Width;
-
-            // ===== ЗОНА 3 (низ): статус + прогресс =====
-            int statusTop = ClientSize.Height - _status.Height;
-            _progress.SetBounds(_status.Left, statusTop, _status.Width, _status.Height);
-            _progress.BringToFront();
-
-            // ===== ЗОНА 1 (шапка): кнопки языка + название =====
-            FitTitle(W);                                 
-
-            int langTop = 12;
-            int langH = 32;
-            int langBottom = langTop + langH;            
-
-            // Высота шапки = максимум из высоты кнопок и высоты заголовка
-            int titleH = _lblTitle.Height;               
-            int headerContentBottom = langTop + Math.Max(langH, titleH);
-            int headerBottom = headerContentBottom + 6;  
-
-            // Название центрируем по вертикали в пределах шапки
-            int titleAreaLeft = _btnRu.Right + 20;
-            _lblTitle.Top = langTop + Math.Max(0, (headerContentBottom - langTop - titleH) / 2);
-            _lblTitle.Left = titleAreaLeft +
-                Math.Max(0, (W - pad - titleAreaLeft - _lblTitle.Width) / 2);
-            _lblTitle.SendToBack();
-
-            // ===== ЗОНА 2 (рабочая область) =====
-            int workTop = headerBottom + gap;            
-            int workBottom = statusTop - gap;
-            int H = workBottom;
-
-            // ---- дальше без изменений ----
-            int colGap = 20;
-            int leftW = (int)((W - pad * 2 - colGap) * 0.55);
-            int rightW = W - pad * 2 - colGap - leftW;
-            int rightX = pad + leftW + colGap;
-
-            int topBtnY = workTop;
-            int topBtnH = 55;
-
-            _btnAdd.SetBounds(pad, topBtnY, leftW, topBtnH);
-
-            int dropTop = topBtnY + topBtnH + gap;
-            _dropPanel.SetBounds(pad, dropTop, leftW, H - dropTop);
-
-            int btnH = 46;
-            int mergeY = H - btnH;
-            _btnMerge.SetBounds(rightX, mergeY, rightW, btnH);
-
-            int clearY = mergeY - gap - btnH;
-            _btnClear.SetBounds(rightX, clearY, rightW, btnH);
-
-            int listTop = topBtnY;
-            int headerH = _lblListHeader.Height + 8;
-            int listBottom = clearY - gap - headerH;
-            _listPanel.SetBounds(rightX, listTop, rightW, Math.Max(60, listBottom - listTop));
-
-            _lblListHeader.Top = _listPanel.Bottom + 4;
-            _lblListHeader.Left = rightX + rightW - _lblListHeader.Width;
-
-            ResizeRows();
-        }
-
-        /// <summary>Подгоняет шрифт названия, чтобы оно не вылезало за правый край.</summary>
-        private void FitTitle(int formWidth)
-        {
-            int available = formWidth - 15 - (_btnRu.Right + 20); 
-            if (available < 60) available = 60;
-
-            float size = 26f;
-            while (size > 12f)
-            {
-                using var f = new Font("Segoe UI Semibold", size, FontStyle.Bold);
-                var sz = TextRenderer.MeasureText(_lblTitle.Text, f);
-                if (sz.Width <= available) break;
-                size -= 1f;
-            }
-            if (Math.Abs(_lblTitle.Font.Size - size) > 0.1f)
-                _lblTitle.Font = new Font("Segoe UI Semibold", size, FontStyle.Bold);
         }
 
         private void HideProgress()
@@ -236,14 +264,6 @@ namespace FileMerger
             int w = GetRowWidth();
             foreach (Control c in _listPanel.Controls)
                 c.Width = w;
-        }
-
-        private Button MakeButton(string text, int x, int y, int w, int h, EventHandler onClick)
-        {
-            var b = new Button { Text = text, Left = x, Top = y, Width = w, Height = h };
-            b.Click += onClick;
-            Controls.Add(b);
-            return b;
         }
 
         // ---------- Локализация ----------
@@ -263,7 +283,6 @@ namespace FileMerger
             _btnMerge.Text = LocalizationManager.Get(_cts is null ? "Merge" : "Cancel");
             _dropPanel.Controls["dropHint"]!.Text = LocalizationManager.Get("DropHint");
             SetStatus("StatusReady");
-            RelayoutAll();
         }
 
         private void SetStatus(string key) => _status.Text = LocalizationManager.Get(key);
@@ -294,7 +313,7 @@ namespace FileMerger
             var collected = new List<string>();
             foreach (var p in paths)
             {
-                if (Directory.Exists(p)) 
+                if (Directory.Exists(p))
                     collected.AddRange(Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories));
                 else if (File.Exists(p))
                     collected.Add(p);
@@ -313,31 +332,33 @@ namespace FileMerger
                 else ignored++;
             }
 
-            // Общий корень для относительных путей
             var baseDir = GetCommonRoot(_files.Select(f => f.FullPath).Concat(accepted));
 
             foreach (var path in accepted)
             {
                 string title = MakeTitle(path, baseDir);
-                title = EnsureUniqueTitle(title); // суффикс (1) при дубликате
+                title = EnsureUniqueTitle(title);
                 var entry = new FileEntry(path, title);
                 _files.Add(entry);
                 AddRow(entry);
             }
 
             var msg = $"{LocalizationManager.Get("Added")}{accepted.Count}   |   " +
-          $"{LocalizationManager.Get("FilesInList")}{_files.Count}";
+                      $"{LocalizationManager.Get("FilesInList")}{_files.Count}";
             if (ignored > 0)
                 msg += $"   |   {LocalizationManager.Get("Ignored")}{ignored}";
             SetStatusRaw(msg);
 
-            UpdateListHeader(); 
+            UpdateListHeader();
         }
 
         private void UpdateListHeader()
         {
-            _lblListHeader.Text = string.Format(LocalizationManager.Get("FileListCount"), _files.Count);          
-            _lblListHeader.Left = _listPanel.Right - _lblListHeader.Width;
+            _lblListHeader.Text = string.Format(LocalizationManager.Get("FileListCount"), _files.Count);
+        }
+        private void UpdateStatusCount()
+        {
+            SetStatusRaw($"{LocalizationManager.Get("FilesInList")}{_files.Count}");
         }
 
         private void AddRow(FileEntry entry)
@@ -347,27 +368,27 @@ namespace FileMerger
             row.Width = GetRowWidth();
             _listPanel.Controls.Add(row);
         }
+
         private void RemoveRow(FileEntryRow row)
         {
             _files.Remove(row.Entry);
             _listPanel.Controls.Remove(row);
             row.Dispose();
             UpdateListHeader();
+            UpdateStatusCount();
         }
 
         private int GetRowWidth()
         {
-            // ClientSize уже учитывает вертикальный скроллбар, если он есть
             return _listPanel.ClientSize.Width - _listPanel.Padding.Horizontal - 2;
         }
 
         private void ClearAll()
         {
             _files.Clear();
-            foreach (Control c in _listPanel.Controls.OfType<Control>().ToList())
-                c.Dispose();
+            foreach (Control c in _listPanel.Controls.OfType<Control>().ToList())c.Dispose();
             _listPanel.Controls.Clear();
-            SetStatus("StatusReady");
+            SetStatus("StatusReady");   
             UpdateListHeader();
         }
 
@@ -416,11 +437,9 @@ namespace FileMerger
             return common.Count == 0 ? null : string.Join(Path.DirectorySeparatorChar, common);
         }
 
-
         // ---------- Объединение ----------
         private async Task MergeAsync()
         {
-            // Если операция уже идёт — второй клик работает как отмена
             if (_cts is not null)
             {
                 _cts.Cancel();
@@ -446,7 +465,7 @@ namespace FileMerger
 
             SetStatus("StatusMerging");
             SetControlsEnabled(false);
-            _btnMerge.Enabled = true;                       // кнопка Merge остаётся активной как «Отмена»
+            _btnMerge.Enabled = true; // остаётся активной как «Отмена»
             _btnMerge.Text = LocalizationManager.Get("Cancel");
             _progress.Visible = true;
             _progress.Value = 0;
@@ -467,7 +486,7 @@ namespace FileMerger
             catch (OperationCanceledException)
             {
                 SetStatus("StatusCancelled");
-                try { File.Delete(dlg.FileName); } catch { /* частичный файл удаляем best-effort */ }
+                try { File.Delete(dlg.FileName); } catch { /* best-effort */ }
             }
             catch (Exception ex)
             {
@@ -487,8 +506,8 @@ namespace FileMerger
         {
             if (_cts is not null)
             {
-                _cts.Cancel();          // просим операцию остановиться
-                e.Cancel = true;        // не закрываем окно, пока идёт merge
+                _cts.Cancel();
+                e.Cancel = true;
                 return;
             }
             base.OnFormClosing(e);

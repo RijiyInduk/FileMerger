@@ -43,8 +43,7 @@ namespace FileMerger
                     var info = new FileInfo(entry.FullPath);
                     if (info.Length > MaxBytes)
                     {
-                        await writer.WriteLineAsync(
-                            $"[Skipped: file too large ({info.Length / 1024 / 1024} MB)]");
+                        await writer.WriteLineAsync(LocalizationManager.Format("SkippedTooLarge", info.Length / 1024 / 1024));
                         result.Skipped++;
                     }
                     else
@@ -65,7 +64,7 @@ namespace FileMerger
                 }
                 catch (Exception ex)
                 {
-                    await writer.WriteLineAsync($"[Read error] {ex.Message}");
+                    await writer.WriteLineAsync(LocalizationManager.Format("ReadError", ex.Message));
                     result.Skipped++;
                 }
 
