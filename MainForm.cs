@@ -8,8 +8,7 @@ namespace FileMerger
     {
         private readonly List<FileEntry> _files = new();
         private readonly FileMergeService _merge = new();
-
-        // Контролы
+                
         private Button _btnEn = null!, _btnRu = null!, _btnAdd = null!, _btnMerge = null!, _btnClear = null!;
         private Label _lblTitle = null!, _lblListHeader = null!;
         private Panel _dropPanel = null!;
