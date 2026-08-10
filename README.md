@@ -81,7 +81,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 (исходный код, конфиги, документацию) в один файл с чёткими разделителями —
 идеально для загрузки целого проекта в LLM (ChatGPT, Claude, Gemini) одной вставкой.
 
-![Скриншот](docs/screenshot.png)
+<img width="1009" height="752" alt="programscreen2" src="https://github.com/user-attachments/assets/fd7e23d5-f1cb-4965-98f5-472e71ec47cb" />
 
 ## Возможности
 
