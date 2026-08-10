@@ -31,6 +31,8 @@ namespace FileMerger
             ["Added"] = ("Added: ", "Добавлено: "),
             ["FilesInList"] = ("Files in list: ", "Файлов в списке: "),
             ["FileListCount"] = ("File list ({0})", "Список файлов ({0})"),
+            ["Cancel"] = ("Cancel", "Отмена"),
+            ["StatusCancelled"] = ("Operation cancelled.", "Операция отменена."),
         };
 
         public static string Get(string key)

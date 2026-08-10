@@ -11,6 +11,7 @@ namespace FileMerger
         public event Action<FileEntryRow>? RemoveRequested;
 
         private readonly Label _label;
+        private readonly Button _removeBtn;
 
         public FileEntryRow(FileEntry entry)
         {
@@ -19,7 +20,7 @@ namespace FileMerger
             Margin = new Padding(0, 0, 0, 2);
             BorderStyle = BorderStyle.None;
 
-            var removeBtn = new Button
+            _removeBtn = new Button
             {
                 Text = "✕",
                 ForeColor = Color.White,
@@ -27,11 +28,11 @@ namespace FileMerger
                 FlatStyle = FlatStyle.Flat,
                 Width = 28,
                 Height = 28,
-                Dock = DockStyle.Right,   
+                Dock = DockStyle.Right,
                 Cursor = Cursors.Hand
             };
-            removeBtn.FlatAppearance.BorderSize = 0;
-            removeBtn.Click += (_, _) => RemoveRequested?.Invoke(this);
+            _removeBtn.FlatAppearance.BorderSize = 0;
+            _removeBtn.Click += OnRemoveClick;
 
             _label = new Label
             {
@@ -41,9 +42,22 @@ namespace FileMerger
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(4, 0, 0, 0)
             };
-            
+
             Controls.Add(_label);
-            Controls.Add(removeBtn);
+            Controls.Add(_removeBtn);
+        }
+
+        private void OnRemoveClick(object? sender, EventArgs e)
+            => RemoveRequested?.Invoke(this);
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _removeBtn.Click -= OnRemoveClick; // явная отписка
+                RemoveRequested = null;            // обнуляем внешние подписки
+            }
+            base.Dispose(disposing);
         }
     }
 }

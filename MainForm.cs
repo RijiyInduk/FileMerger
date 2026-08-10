@@ -5,7 +5,8 @@ namespace FileMerger
     {
         private readonly List<FileEntry> _files = new();
         private readonly FileMergeService _merge = new();
-                
+        private CancellationTokenSource? _cts;
+
         private Button _btnEn = null!, _btnRu = null!, _btnAdd = null!, _btnMerge = null!, _btnClear = null!;
         private Label _lblTitle = null!, _lblListHeader = null!;
         private Panel _dropPanel = null!;
@@ -259,7 +260,7 @@ namespace FileMerger
             _btnAdd.Text = LocalizationManager.Get("AddFiles");
             UpdateListHeader();
             _btnClear.Text = LocalizationManager.Get("ClearAll");
-            _btnMerge.Text = LocalizationManager.Get("Merge");
+            _btnMerge.Text = LocalizationManager.Get(_cts is null ? "Merge" : "Cancel");
             _dropPanel.Controls["dropHint"]!.Text = LocalizationManager.Get("DropHint");
             SetStatus("StatusReady");
             RelayoutAll();
@@ -419,6 +420,13 @@ namespace FileMerger
         // ---------- Объединение ----------
         private async Task MergeAsync()
         {
+            // Если операция уже идёт — второй клик работает как отмена
+            if (_cts is not null)
+            {
+                _cts.Cancel();
+                return;
+            }
+
             if (_files.Count == 0)
             {
                 MessageBox.Show(LocalizationManager.Get("EmptyList"), Text,
@@ -434,8 +442,12 @@ namespace FileMerger
             };
             if (dlg.ShowDialog(this) != DialogResult.OK) return;
 
+            _cts = new CancellationTokenSource();
+
             SetStatus("StatusMerging");
             SetControlsEnabled(false);
+            _btnMerge.Enabled = true;                       // кнопка Merge остаётся активной как «Отмена»
+            _btnMerge.Text = LocalizationManager.Get("Cancel");
             _progress.Visible = true;
             _progress.Value = 0;
 
@@ -443,7 +455,7 @@ namespace FileMerger
 
             try
             {
-                var result = await _merge.MergeAsync(_files, dlg.FileName, progress);
+                var result = await _merge.MergeAsync(_files, dlg.FileName, progress, _cts.Token);
 
                 SetStatusRaw(result.Skipped > 0
                     ? LocalizationManager.Get("SkippedCount") + result.Skipped
@@ -452,17 +464,35 @@ namespace FileMerger
                 MessageBox.Show(LocalizationManager.Get("Success") + dlg.FileName, Text,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (OperationCanceledException)
+            {
+                SetStatus("StatusCancelled");
+                try { File.Delete(dlg.FileName); } catch { /* частичный файл удаляем best-effort */ }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
+                _cts.Dispose();
+                _cts = null;
+                _btnMerge.Text = LocalizationManager.Get("Merge");
                 SetControlsEnabled(true);
                 HideProgress();
             }
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (_cts is not null)
+            {
+                _cts.Cancel();          // просим операцию остановиться
+                e.Cancel = true;        // не закрываем окно, пока идёт merge
+                return;
+            }
+            base.OnFormClosing(e);
+        }
 
         private void SetControlsEnabled(bool enabled)
         {

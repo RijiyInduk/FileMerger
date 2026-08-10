@@ -13,6 +13,7 @@ namespace FileMerger
     public sealed class FileMergeService
     {
         private const string Separator = "============================================================"; // 60x '='
+        private const long MaxBytes = 50L * 1024 * 1024; // 50 МБ
 
         /// <summary>Асинхронно объединяет файлы построчно. Прогресс 0..100.</summary>
         public async Task<MergeResult> MergeAsync(
@@ -26,6 +27,8 @@ namespace FileMerger
 
             await using var writer = new StreamWriter(outputPath, append: false, utf8NoBom);
 
+            int lastPct = -1;
+
             for (int i = 0; i < files.Count; i++)
             {
                 ct.ThrowIfCancellationRequested();
@@ -37,21 +40,44 @@ namespace FileMerger
 
                 try
                 {
-                    var encoding = DetectEncoding(entry.FullPath);
-                    using var reader = new StreamReader(entry.FullPath, encoding, true);
-                    string? line;
-                    while ((line = await reader.ReadLineAsync()) is not null)
-                        await writer.WriteLineAsync(line);
+                    var info = new FileInfo(entry.FullPath);
+                    if (info.Length > MaxBytes)
+                    {
+                        await writer.WriteLineAsync(
+                            $"[Skipped: file too large ({info.Length / 1024 / 1024} MB)]");
+                        result.Skipped++;
+                    }
+                    else
+                    {
+                        var encoding = DetectEncoding(entry.FullPath);
+                        using var reader = new StreamReader(entry.FullPath, encoding, true);
+                        string? line;
+                        while ((line = await reader.ReadLineAsync()) is not null)
+                        {
+                            ct.ThrowIfCancellationRequested();
+                            await writer.WriteLineAsync(line);
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    throw; // отмену пробрасываем наверх, не превращая в [Read error]
                 }
                 catch (Exception ex)
-                {                    
+                {
                     await writer.WriteLineAsync($"[Read error] {ex.Message}");
                     result.Skipped++;
                 }
 
                 await writer.WriteLineAsync();
 
-                progress.Report((int)((i + 1) / (double)files.Count * 100));
+                // Троттлинг: репортим только при изменении процента
+                int pct = (int)((i + 1) / (double)files.Count * 100);
+                if (pct != lastPct)
+                {
+                    progress.Report(pct);
+                    lastPct = pct;
+                }
             }
 
             return result;
@@ -61,12 +87,13 @@ namespace FileMerger
         private static Encoding DetectEncoding(string path)
         {
             var bom = new byte[4];
+            int read;
             using (var fs = File.OpenRead(path))
-                _ = fs.Read(bom, 0, 4);
+                read = fs.Read(bom, 0, 4);
 
-            if (bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF) return Encoding.UTF8;
-            if (bom[0] == 0xFF && bom[1] == 0xFE) return Encoding.Unicode;      // UTF-16 LE
-            if (bom[0] == 0xFE && bom[1] == 0xFF) return Encoding.BigEndianUnicode; // UTF-16 BE
+            if (read >= 3 && bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF) return Encoding.UTF8;
+            if (read >= 2 && bom[0] == 0xFF && bom[1] == 0xFE) return Encoding.Unicode;      // UTF-16 LE
+            if (read >= 2 && bom[0] == 0xFE && bom[1] == 0xFF) return Encoding.BigEndianUnicode; // UTF-16 BE
             return new UTF8Encoding(false);
         }
     }
