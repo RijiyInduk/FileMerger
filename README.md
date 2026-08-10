@@ -24,8 +24,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Download
 
-- [⬇️ Download (self-contained)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-self-contained.zip)
-- [⬇️ Download (framework-dependent)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-framework-dependent.zip)
+(https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0)
 
 | File | Description | Requires .NET? |
 |------|-------------|----------------|
