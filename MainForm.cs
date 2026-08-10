@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace FileMerger
 {
     public sealed class MainForm : Form
@@ -466,14 +463,6 @@ namespace FileMerger
             }
         }
 
-        private void InitializeComponent()
-        {
-            SuspendLayout();
-            ClientSize = new Size(284, 261);
-            Name = "MainForm";
-            ResumeLayout(false);
-
-        }
 
         private void SetControlsEnabled(bool enabled)
         {
