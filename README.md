@@ -97,8 +97,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 
 ## Скачать
 
-- [⬇️ Download (self-contained)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-self-contained.zip)
-- [⬇️ Download (framework-dependent)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-framework-dependent.zip)
+Актуальную сборку берите на странице: (https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0)
 
 | Файл | Описание | Нужен .NET? |
 |------|----------|-------------|
