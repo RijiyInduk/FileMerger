@@ -21,8 +21,7 @@
 
         // ---------- UI ----------
         private void BuildUi()
-        {
-            Text = "File Merger";
+        {            
             try
             {
                 using var s = System.Reflection.Assembly.GetExecutingAssembly()

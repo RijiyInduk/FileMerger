@@ -12,6 +12,9 @@
 		<SelfContained>false</SelfContained>
 		<ApplicationIcon>MergerIcon256.ico</ApplicationIcon>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<AssemblyName>TXTFilesMerger</AssemblyName>
+		<Product>TXTFilesMerger</Product>
+		<AssemblyTitle>TXTFilesMerger</AssemblyTitle>
 	</PropertyGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="MergerIcon256.ico" />
