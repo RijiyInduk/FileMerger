@@ -1,6 +1,8 @@
 
 # TXTFilesMerger
 
+[English version](#english) | [Русская версия](#russian)
+
 A lightweight Windows desktop tool that merges multiple text-based files
 (source code, configs, docs) into a single output file with clear separators -
 perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in one paste.
