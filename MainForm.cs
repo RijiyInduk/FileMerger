@@ -30,7 +30,7 @@
                 if (s != null)
                     Icon = new Icon(s);
             }
-            catch { /* иконка не критична */ }
+            catch {}
 
             MinimumSize = new Size(760, 560);
             Size = new Size(1024, 760);
@@ -39,7 +39,7 @@
             BackColor = Color.FromArgb(237, 230, 219);
             Padding = new Padding(15, 12, 15, 0);
 
-            // ===== Статус (Dock.Bottom) =====
+            // ===== Status bar (Dock.Bottom) =====
             _status = new Label
             {
                 Height = 28,
@@ -51,7 +51,7 @@
             };
             Controls.Add(_status);
 
-            // Прогресс — над статусом (та же нижняя зона)
+            // Progress bar — above the status bar (same bottom zone)
             _progress = new ProgressBar
             {
                 Height = 22,
@@ -60,7 +60,7 @@
             };
             Controls.Add(_progress);
 
-            // ===== Корневая таблица: [0] шапка (auto), [1] тело (fill) =====
+            // ===== Root table: [0] header (auto), [1] body (fill) =====
             var root = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -74,7 +74,7 @@
             Controls.Add(root);
             root.BringToFront();
 
-            // ===== Строка 0: шапка (EN | RU | Title) =====
+            // ===== (EN | RU | Title) =====
             var header = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -112,12 +112,12 @@
             {
                 AutoSize = false,
                 Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI Semibold", 18, FontStyle.Bold), // 22 → 20
+                Font = new Font("Segoe UI Semibold", 18, FontStyle.Bold), 
                 ForeColor = Color.FromArgb(60, 45, 30),
                 BackColor = Color.Transparent,
                 TextAlign = ContentAlignment.MiddleCenter,
-                AutoEllipsis = false,                        // отключаем обрезку
-                Margin = new Padding(0, 0, 15, 0),           // отступ справа
+                AutoEllipsis = false,                        
+                Margin = new Padding(0, 0, 15, 0),         
                 UseCompatibleTextRendering = false
             };
 
@@ -126,7 +126,7 @@
             header.Controls.Add(_lblTitle, 2, 0);
             root.Controls.Add(header, 0, 0);
 
-            // ===== Строка 1: тело (55% / 45%) =====
+            // ===== Row 1: body (55% / 45%) =====
             var body = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -138,7 +138,7 @@
             body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
             root.Controls.Add(body, 0, 1);
 
-            // ---- Левая колонка ----
+            // ---- Left column ----
             var left = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -184,7 +184,7 @@
             left.Controls.Add(_dropPanel, 0, 1);
             body.Controls.Add(left, 0, 0);
 
-            // ---- Правая колонка: List(fill) + Header(auto) + Clear + Merge ----
+            // ---- Right column: List(fill) + Header(auto) + Clear + Merge ----
             var right = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -247,8 +247,7 @@
             right.Controls.Add(_btnClear, 0, 2);
             right.Controls.Add(_btnMerge, 0, 3);
             body.Controls.Add(right, 1, 0);
-
-            // Скрывать прогресс при служебных кликах
+            
             foreach (var btn in new[] { _btnEn, _btnRu, _btnAdd, _btnClear })
                 btn.Click += (_, _) => HideProgress();
         }
@@ -266,7 +265,7 @@
                 c.Width = w;
         }
 
-        // ---------- Локализация ----------
+        // ---------- Localization ----------
         private void SwitchLang(AppLang lang)
         {
             LocalizationManager.Set(lang);
@@ -288,7 +287,7 @@
         private void SetStatus(string key) => _status.Text = LocalizationManager.Get(key);
         private void SetStatusRaw(string text) => _status.Text = text;
 
-        // ---------- Добавление файлов ----------
+        // ---------- Adding files ----------
         private void AddViaDialog()
         {
             using var dlg = new OpenFileDialog
@@ -392,7 +391,7 @@
             UpdateListHeader();
         }
 
-        // ---------- Заголовки / относительные пути ----------
+        // ---------- Titles / relative paths ----------
         private static string MakeTitle(string fullPath, string? baseDir)
         {
             if (string.IsNullOrEmpty(baseDir)) return Path.GetFileName(fullPath);
@@ -437,7 +436,7 @@
             return common.Count == 0 ? null : string.Join(Path.DirectorySeparatorChar, common);
         }
 
-        // ---------- Объединение ----------
+        // ---------- Merging ----------
         private async Task MergeAsync()
         {
             if (_cts is not null)
@@ -465,7 +464,7 @@
 
             SetStatus("StatusMerging");
             SetControlsEnabled(false);
-            _btnMerge.Enabled = true; // остаётся активной как «Отмена»
+            _btnMerge.Enabled = true; 
             _btnMerge.Text = LocalizationManager.Get("Cancel");
             _progress.Visible = true;
             _progress.Value = 0;
@@ -486,7 +485,7 @@
             catch (OperationCanceledException)
             {
                 SetStatus("StatusCancelled");
-                try { File.Delete(dlg.FileName); } catch { /* best-effort */ }
+                try { File.Delete(dlg.FileName); } catch {}
             }
             catch (Exception ex)
             {

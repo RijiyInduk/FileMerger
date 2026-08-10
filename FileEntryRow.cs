@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FileMerger
 {
-    /// <summary>Одна строка: обрезанное имя + красная кнопка удаления.</summary>
+    /// <summary>A single row: truncated name + red remove button.</summary>
     public sealed class FileEntryRow : Panel
     {
         public FileEntry Entry { get; }
@@ -54,8 +54,8 @@ namespace FileMerger
         {
             if (disposing)
             {
-                _removeBtn.Click -= OnRemoveClick; // явная отписка
-                RemoveRequested = null;            // обнуляем внешние подписки
+                _removeBtn.Click -= OnRemoveClick; 
+                RemoveRequested = null;            
             }
             base.Dispose(disposing);
         }

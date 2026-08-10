@@ -17,7 +17,7 @@ namespace FileMerger
         public static bool IsSupported(string path)
             => All.Contains(Path.GetExtension(path));
 
-        /// <summary>Строка фильтра для OpenFileDialog.</summary>
+        /// <summary>Filter string for OpenFileDialog.</summary>
         public static string OpenFilter()
         {
             var mask = string.Join(";", All.Select(e => "*" + e));

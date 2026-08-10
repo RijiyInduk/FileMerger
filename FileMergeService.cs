@@ -15,7 +15,7 @@ namespace FileMerger
         private const string Separator = "============================================================"; // 60x '='
         private const long MaxBytes = 50L * 1024 * 1024; // 50 МБ
 
-        /// <summary>Асинхронно объединяет файлы построчно. Прогресс 0..100.</summary>
+        /// <summary>Asynchronously merges files line by line. Progress 0..100.</summary>
         public async Task<MergeResult> MergeAsync(
             IReadOnlyList<FileEntry> files,
             string outputPath,
@@ -60,7 +60,7 @@ namespace FileMerger
                 }
                 catch (OperationCanceledException)
                 {
-                    throw; // отмену пробрасываем наверх, не превращая в [Read error]
+                    throw; 
                 }
                 catch (Exception ex)
                 {
@@ -70,7 +70,6 @@ namespace FileMerger
 
                 await writer.WriteLineAsync();
 
-                // Троттлинг: репортим только при изменении процента
                 int pct = (int)((i + 1) / (double)files.Count * 100);
                 if (pct != lastPct)
                 {
@@ -82,7 +81,7 @@ namespace FileMerger
             return result;
         }
 
-        /// <summary>Определение кодировки по BOM, иначе UTF-8</summary>
+        /// <summary>Detects encoding by BOM, otherwise falls back to UTF-8.</summary>
         private static Encoding DetectEncoding(string path)
         {
             var bom = new byte[4];

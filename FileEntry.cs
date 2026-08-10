@@ -4,11 +4,11 @@ using System.Text;
 
 namespace FileMerger
 {
-    /// <summary>Один файл в списке.</summary>
+    /// <summary>A single file in the list.</summary>
     public sealed class FileEntry
     {
         public string FullPath { get; }
-        /// <summary>Путь для заголовка (относительный или имя + суффикс дубликата).</summary>
+        /// <summary>Title path (relative path or file name + duplicate suffix).</summary>
         public string DisplayTitle { get; set; }
 
         public FileEntry(string fullPath, string displayTitle)

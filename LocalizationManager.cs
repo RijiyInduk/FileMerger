@@ -6,7 +6,7 @@ namespace FileMerger
 {
     public enum AppLang { En, Ru }
 
-    /// <summary>Простой словарь строк без .resx (проще для одного файла).</summary>
+    /// <summary>Simple string dictionary without .resx (easier for a single file).</summary>
     public static class LocalizationManager
     {
         public static AppLang Current { get; private set; } = AppLang.En;
@@ -41,7 +41,7 @@ namespace FileMerger
             return Current == AppLang.En ? v.en : v.ru;
         }
 
-        /// <summary>Форматированная строка с подстановкой аргументов ({0}, {1}...).</summary>
+        /// <summary>Formatted string with argument substitution ({0}, {1}...).</summary>
         public static string Format(string key, params object[] args)
             => string.Format(Get(key), args);
 
