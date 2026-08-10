@@ -24,7 +24,8 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Download
 
-Grab the latest build from the [**Releases**](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases) page:
+- [⬇️ Download (self-contained)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-self-contained.zip)
+- [⬇️ Download (framework-dependent)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-framework-dependent.zip)
 
 | File | Description | Requires .NET? |
 |------|-------------|----------------|
@@ -97,7 +98,8 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 
 ## Скачать
 
-Актуальную сборку берите на странице [**Releases**](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases):
+- [⬇️ Download (self-contained)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-self-contained.zip)
+- [⬇️ Download (framework-dependent)](https://github.com/YOUR_USERNAME/TXTFilesMerger/releases/latest/download/TXTFilesMerger-win-x64-framework-dependent.zip)
 
 | Файл | Описание | Нужен .NET? |
 |------|----------|-------------|
