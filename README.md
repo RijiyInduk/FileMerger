@@ -66,6 +66,14 @@ cd TXTFilesMerger
 dotnet run
 ```
 
+```bash
+# Self-contained
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+
+# Framework-dependent
+dotnet publish -c Release -r win-x64 --self-contained false
+```
+
 ## Tech stack
 
 - C# / .NET 8
