@@ -28,7 +28,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Download
 
-Download the latest release from: https: //github.com/RijiyInduk/TXTFilesMerger/releases/latest
+Download the latest release from: https://github.com/RijiyInduk/TXTFilesMerger/releases/latest
 
 No installation required - unzip and run TXTFilesMerger.exe.
 
