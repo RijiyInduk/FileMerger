@@ -2,6 +2,9 @@
 # TXTFilesMerger
 
 [English version](#english) | [Русская версия](#russian)
+![License](https://img.shields.io/github/license/RijiyInduk/FileMerger)
+![Release](https://img.shields.io/github/v/release/RijiyInduk/FileMerger)
+![Downloads](https://img.shields.io/github/downloads/RijiyInduk/FileMerger/total)
 
 ## English <a name="english"></a>
 A lightweight Windows desktop tool that merges multiple text-based files
