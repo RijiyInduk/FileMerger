@@ -64,7 +64,7 @@ File #2. README.md
 
 - **OS**: Windows 10 or later (64‑bit only)
 - **Architecture**: x64
-- 
+  
 ## Build from source
 
 Requires [.NET 8 SDK](https://dotnet.microsoft.com/download).
