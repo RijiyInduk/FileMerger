@@ -62,7 +62,7 @@ File #2. README.md
 ```
 ## System Requirements
 
-- **OS**: Windows 10 or later (64‑bit only)
+- **OS**: Windows 10 or later
 - **Architecture**: x64
   
 ## Build from source
@@ -149,7 +149,7 @@ File #2. README.md
 ```
 ## Системные требования
 
-- **ОС**: Windows 10 или выше (только 64‑разрядная)
+- **ОС**: Windows 10 или выше
 - **Архитектура**: x64
 
 ## Сборка из исходников
