@@ -65,12 +65,12 @@ git clone https://github.com/YOUR_USERNAME/TXTFilesMerger.git
 cd TXTFilesMerger
 dotnet run
 ```
-
-```bash
 # Self-contained
+```bash
 dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
-
+```
 # Framework-dependent
+```bash
 dotnet publish -c Release -r win-x64 --self-contained false
 ```
 
