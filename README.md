@@ -30,7 +30,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 Download the latest release from: https: //github.com/RijiyInduk/TXTFilesMerger/releases/latest
 
-No installation required — unzip and run TXTFilesMerger.exe.
+No installation required - unzip and run TXTFilesMerger.exe.
 
 | File | Description | Requires .NET? |
 |------|-------------|----------------|
@@ -60,7 +60,11 @@ File #2. README.md
 ============================================================
 <file contents>
 ```
+## System Requirements
 
+- **OS**: Windows 10 or later (64‑bit only)
+- **Architecture**: x64
+- 
 ## Build from source
 
 Requires [.NET 8 SDK](https://dotnet.microsoft.com/download).
@@ -113,7 +117,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 
 Актуальную сборку берите на странице: https://github.com/RijiyInduk/TXTFilesMerger/releases/latest
 
-Установка не требуется — распакуйте архив и запустите TXTFilesMerger.exe.
+Установка не требуется - распакуйте архив и запустите TXTFilesMerger.exe.
 
 | Файл | Описание | Нужен .NET? |
 |------|----------|-------------|
@@ -143,6 +147,10 @@ File #2. README.md
 ============================================================
 <содержимое файла>
 ```
+## Системные требования
+
+- **ОС**: Windows 10 или выше (только 64‑разрядная)
+- **Архитектура**: x64
 
 ## Сборка из исходников
 
