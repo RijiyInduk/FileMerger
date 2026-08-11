@@ -24,7 +24,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Download
 
-Download the latest release from: https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0\
+Download the latest release from: https://github.com/RijiyInduk/TXTFilesMerger/releases/latest
 No installation required — unzip and run TXTFilesMerger.exe.
 
 | File | Description | Requires .NET? |
@@ -106,7 +106,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 
 ## Скачать
 
-Актуальную сборку берите на странице: (https://github.com/RijiyInduk/FileMerger/releases/tag/v1.0.0)
+Актуальную сборку берите на странице: https://github.com/RijiyInduk/TXTFilesMerger/releases/latest
 Установка не требуется — распакуйте архив и запустите TXTFilesMerger.exe.
 
 | Файл | Описание | Нужен .NET? |
