@@ -16,7 +16,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 
 ## Features
 
-- **Add files** via dialog (multi-select) or **drag & drop** (files *and* folders, recursive).
+- **Add files** via dialog (multi-select) or **drag & drop** (files and folders, recursive).
 - **28 supported extensions**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
 - **Relative-path titles** (e.g. `src/Player.cs`) for better LLM context.
 - **Duplicate handling** - same-named files get a `(1)`, `(2)` suffix.
@@ -103,7 +103,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 
 ## Возможности
 
-- **Добавление файлов** через диалог (множественный выбор) или **перетаскиванием** (drag & drop) - как файлов, *так и папок* (рекурсивно).
+- **Добавление файлов** через диалог (множественный выбор) или **перетаскиванием** (drag & drop) - как файлов, так и папок (рекурсивно).
 - **28 поддерживаемых расширений**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
 - **Относительные пути в заголовках** (например, `src/Player.cs`) — больше контекста для LLM.
 - **Обработка дубликатов** - одноимённые файлы получают суффикс `(1)`, `(2)`.
