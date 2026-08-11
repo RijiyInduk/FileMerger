@@ -1,10 +1,11 @@
+![License](https://img.shields.io/github/license/RijiyInduk/FileMerger)
+![Release](https://img.shields.io/github/v/release/RijiyInduk/FileMerger)
+![Downloads](https://img.shields.io/github/downloads/RijiyInduk/FileMerger/total)
 
 # TXTFilesMerger
 
 [English version](#english) | [Русская версия](#russian)
-![License](https://img.shields.io/github/license/RijiyInduk/FileMerger)
-![Release](https://img.shields.io/github/v/release/RijiyInduk/FileMerger)
-![Downloads](https://img.shields.io/github/downloads/RijiyInduk/FileMerger/total)
+
 
 ## English <a name="english"></a>
 A lightweight Windows desktop tool that merges multiple text-based files
@@ -16,7 +17,7 @@ perfect for feeding an entire codebase into an LLM (ChatGPT, Claude, Gemini) in 
 ## Features
 
 - **Add files** via dialog (multi-select) or **drag & drop** (files *and* folders, recursive).
-- **28+ supported extensions**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
+- **28 supported extensions**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
 - **Relative-path titles** (e.g. `src/Player.cs`) for better LLM context.
 - **Duplicate handling** - same-named files get a `(1)`, `(2)` suffix.
 - **Streaming read/write** - handles large files without loading them fully into memory.
@@ -98,7 +99,7 @@ TXTFilesMerger - утилита для Windows, которая объединя�
 ## Возможности
 
 - **Добавление файлов** через диалог (множественный выбор) или **перетаскиванием** (drag & drop) - как файлов, *так и папок* (рекурсивно).
-- **28+ поддерживаемых расширений**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
+- **28 поддерживаемых расширений**: `.txt .cs .md .json .xml .yaml .yml .html .css .js .ts .py .java .cpp .h .xaml .sql .sh .bat .ps1 .go .rs .php .kt .toml .ini .csv`.
 - **Относительные пути в заголовках** (например, `src/Player.cs`) — больше контекста для LLM.
 - **Обработка дубликатов** - одноимённые файлы получают суффикс `(1)`, `(2)`.
 - **Потоковое чтение/запись** - большие файлы обрабатываются без полной загрузки в память.
